@@ -1,0 +1,61 @@
+<html>
+  <style>
+    body {
+	background-color: #02629e;
+	color: #fff;
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	font-weight: 700;
+    }
+    #img-container {
+	float: left;
+    }
+    #text-container {
+	float: left;
+	text-transform: uppercase;
+	font-size: 48px;
+	margin: 30px;
+    }
+  </style>
+  <script>
+    (function () {
+	"use strict";
+
+	window.addEventListener("load", (event) => {
+	    fetch("data.json").then((response) => {
+		return response.json();
+	    }).catch((err) => {
+		console.warn("Jag tror jag såg en kopparorm!", err);
+	    }).then((data) => {
+		console.log(data);
+
+		let img, text;
+		if (data.curr_export < 0) {
+		    img = "ebba-r0d.png";
+		    text = "Undvik att dammsuga, säger Ebba";
+		} else {
+		    img = "ebba-gr0n.png";
+		    text = "Om du måste så passa på att dammsuga nu, säger Ebba";
+		}
+		let c = document.getElementById("img-container");
+		while (c.firstChild) {
+		    c.removeChild(c.firstChild);
+		}
+		let e = document.createElement("IMG");
+		e.setAttribute("src", img);
+		c.appendChild(e);
+		document.getElementById("text-container").innerText = text;
+	    });
+	});
+	console.log("Jag är laddad!");
+
+    })();
+  </script>
+  <body>
+    <div id="img-container">
+      <div>Ebba funderar...</div>
+    </div>
+    <div id="text-container"></div>
+  </body>
+</html>
