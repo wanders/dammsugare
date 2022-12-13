@@ -1,61 +1,83 @@
+<!doctype html>
 <html>
-  <style>
-    body {
-	background-color: #02629e;
-	color: #fff;
-	margin: 0;
-	padding: 0;
-	font-family: sans-serif;
-	font-weight: 700;
-    }
-    #img-container {
-	float: left;
-    }
-    #text-container {
-	float: left;
-	text-transform: uppercase;
-	font-size: 48px;
-	margin: 30px;
-    }
-  </style>
-  <script>
-    (function () {
-	"use strict";
+	<head>
+		<meta charset="utf-8">
+		<style>
+			body {
+				background-color: #02629e;
+				color: #fff;
+				margin: 0;
+				padding: 0;
+				font-family: sans-serif;
+				font-weight: 700;
+			}
+			#wrapper {
+				text-align: center;
+			}
+			#text-container {
+				max-width: 800px;
+				text-transform: uppercase;
+				font-size: 48px;
+				margin: 30px auto 0 auto;
+			}
+			#ebbaloading {
+				margin-top: 30%;
+			}
 
-	window.addEventListener("load", (event) => {
-	    fetch("data.json").then((response) => {
-		return response.json();
-	    }).catch((err) => {
-		console.warn("Jag tror jag såg en kopparorm!", err);
-	    }).then((data) => {
-		console.log(data);
+			#ebba {
+				margin-top: 30px;
+				max-width: 100%;
+			}
 
-		let img, text;
-		if (data.curr_export < 0) {
-		    img = "ebba-r0d.png";
-		    text = "Undvik att dammsuga, säger Ebba";
-		} else {
-		    img = "ebba-gr0n.png";
-		    text = "Om du måste så passa på att dammsuga nu, säger Ebba";
-		}
-		let c = document.getElementById("img-container");
-		while (c.firstChild) {
-		    c.removeChild(c.firstChild);
-		}
-		let e = document.createElement("IMG");
-		e.setAttribute("src", img);
-		c.appendChild(e);
-		document.getElementById("text-container").innerText = text;
-	    });
-	});
-	console.log("Jag är laddad!");
+			.hidden {
+				display: none;
+			}
 
-    })();
-  </script>
+			@media (max-width:481px)  {
+				#text-container {
+					font-size: 24px;
+					margin: 16px;
+				}
+			}
+		</style>
+		<script>
+			(function () {
+			"use strict";
+
+			window.addEventListener("load", (event) => {
+				fetch("data.json").then((response) => {
+					return response.json();
+				}).catch((err) => {
+					console.warn("Jag tror jag såg en kopparorm!", err);
+					document.getElementById("ebbaloading").innerText = "⚠️ Jag tror jag såg en kopparorm! 🐍";
+				}).then((data) => {
+					console.log(data);
+
+					if (data.curr_export < 0) {
+						document.getElementById("ebba").src="ebba-r0d.png";
+						document.getElementById("ebba").className="nothidden";
+						document.getElementById("ebbaloading").className = "hidden";
+						document.getElementById("text-container").innerText = "Undvik att dammsuga, säger Ebba";
+					} else {
+						document.getElementById("ebba").src="ebba-gr0n.png";
+						document.getElementById("ebba").className="nothidden";
+						document.getElementById("ebbaloading").className = "hidden";
+						document.getElementById("text-container").innerText = "Om du måste så passa på att dammsuga nu, säger Ebba";
+					}
+				});
+			});
+			console.log("Jag är laddad!");
+
+			})();
+		</script>
+	</head>
   <body>
-    <div id="img-container">
-      <div>Ebba funderar...</div>
-    </div>
-    <div id="text-container"></div>
+	<div id="wrapper">
+		<div id="img-container">
+			<img src="" id="ebba" class="hidden"/>
+		  	<div id="ebbaloading" class="nothidden">Ebba funderar...</div>
+		</div>
+		<div id="text-container"></div>
+	</div>
   </body>
 </html>
